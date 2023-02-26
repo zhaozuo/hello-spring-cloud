@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: user
+  profiles:
+    active: peer2
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:5001/eureka/,http://localhost:5002/eureka/
