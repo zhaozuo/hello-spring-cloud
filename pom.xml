@@ -21,6 +21,7 @@
         <module>fund</module>
         <module>product</module>
         <module>user</module>
+        <module>common</module>
     </modules>
 
     <repositories>
