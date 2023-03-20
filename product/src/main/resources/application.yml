@@ -10,3 +10,34 @@ eureka:
       defaultZone: http://localhost:5001/eureka/,http://localhost:5002/eureka/
     # 实例信息初始化到服务器时间间隔
     initial-instance-info-replication-interval-seconds: 10
+#优先级2
+#只对该微服务生效
+fund:
+  ribbon:
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.BestAvailableRule
+    NFLoadBalancerPingClassName: com.netflix.loadbalancer.PingUrl
+    # 连接超时时间，单位毫秒
+    ConnectTimeout: 1000
+    # 请求超时时间，单位毫秒
+    ReadTimeout: 3000
+    # 最大连接数
+    MaxTotalHttpConnections: 500
+    # 每个服务提供者的最大连接数
+    MaxConnectionsPerHost: 100
+    # 是否所有操作都重试
+    OkToRetryONALLOperations: false
+    # 重试其他实例的最大重试次数，不包括首次选择的sever
+    MaxAutoRetriesNextServer: 2
+    # 同一实例的最大重试次数，不包括首次调用
+    MaxAutoRetries: 1
+  eureka:
+    # 不使用Eureka服务获取机制
+    #enabled: false
+    # 自配置服务器列表
+    #listOfServers: http://localhost:7001,http://localhost:7002
+ribbon:
+  eager-load:
+    # 是否启用饥渴加载，默认为false
+    enabled: true
+    # 饥渴加载的微服务ID
+    clients: user, product, fund
