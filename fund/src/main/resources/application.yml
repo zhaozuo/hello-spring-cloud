@@ -10,3 +10,63 @@ eureka:
       defaultZone: http://localhost:5001/eureka/,http://localhost:5002/eureka/
     # 实例信息初始化到服务器时间间隔
     initial-instance-info-replication-interval-seconds: 10
+
+#feign:
+#  client:
+#    config:
+#      # “user”代表用户微服务的OpenFeign客户端
+#      user:
+#        # 连接远程服务器超时时间（单位毫秒）
+#        connectTimeout: 5000
+#        # 读取请求超时时间（单位毫秒）
+#        readTimeout: 5000
+#        # 配置拦截器，多个不保证顺序
+#        request-interceptors:
+#          - com.spring.cloud.fund.facade.interceptor.UserInterceptor
+
+#全局配置
+feign:
+  # Hystrix配置
+  hystrix:
+    # 是否将OpenFeign调度封装为Hystrix命令，然后通过断路器执行，
+    # 默认值为false（旧版本为true）
+    enabled: false
+  # 压缩
+  compression:
+    # 请求
+    request:
+      # 是否支持请求GZIP压缩，默认值为false
+      enabled: true
+      # GZIP压缩什么类型，默认值为text/xml,application/xml,application/json
+      mime-types: text/xml,application/xml,application/json
+      # 当请求内容大于多少阈值后，进行GZIP压缩请求，默认值为2048（单位KB）
+      min-request-size: 4096
+    # 响应
+    response:
+      # 请求响应结果是否允许压缩
+      enabled: true
+  #  httpclient:
+  #    # 是否启用Apache HTTP Client作为底层连接（Ribbon的默认方法）
+  #    enabled: true
+  #    # 尝试连接超时时间
+  #    connection-timeout: 2000
+  #    # 是否禁止SSL协议验证
+  #    disable-ssl-validation: false
+  #    # 连接重新尝试
+  #    connection-timer-repeat: 2000
+  #    # 默认最大连接数
+  #    max-connections: 100
+  #    # 单个调用最大连接数
+  #    max-connections-per-route: 30
+  #    # HttpClient的存活时间，默认为900，单位通过time-to-live-unit配置
+  #    time-to-live: 500
+  #    # HttpClient的存活时间单位，默认为秒（second）
+  #    time-to-live-unit: milliseconds
+  #    # 当HTTP返回码为3xx（重定向）时，是否执行重定向操作，默认为true
+  #    follow-redirects: false
+  okhttp:
+    # 启用Ok HTTP Client，默认值为false
+    enabled: true
+  httpclient:
+    # 是否启用Apache HTTP Client作为底层连接
+    enabled: false
