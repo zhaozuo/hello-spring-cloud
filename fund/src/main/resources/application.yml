@@ -70,3 +70,26 @@ feign:
   httpclient:
     # 是否启用Apache HTTP Client作为底层连接
     enabled: false
+
+# Ribbon配置
+ribbon:
+  # 连接服务器超时时间（单位毫秒）
+  connectTimeout: 3000
+  # 调用超时时间（单位毫秒）
+  readTimeout: 6000
+
+# Hystrix配置
+hystrix:
+  # 自动配置一个Hystrix并发策略插件的hook，
+  # 这个hook会将SecurityContext从主线程传输到Hystrix的命令。
+  shareSecurityContext: true
+  command:
+    default:
+      execution:
+        timeout:
+          # 是否启用Hystrix超时时间
+          enable: true
+        isolation:
+          thread:
+            # 配置Hystrix断路器超时时间（单位毫秒）
+            timeoutInMilliseconds: 5000
