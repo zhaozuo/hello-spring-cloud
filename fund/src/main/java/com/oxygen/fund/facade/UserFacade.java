@@ -3,6 +3,8 @@ package com.oxygen.fund.facade;
 import com.oxygen.common.pojo.UserInfo;
 import com.oxygen.common.vo.ResultMessage;
 import com.oxygen.fund.facade.interceptor.UserInterceptor;
+import com.oxygen.fund.fallback.UserFallBack;
+import feign.Feign;
 import feign.Logger;
 import feign.RequestInterceptor;
 import feign.codec.Decoder;
@@ -22,9 +24,10 @@ import javax.annotation.Resource;
 import java.util.List;
 
 // 声明为OpenFeign的客户端
-@FeignClient(value="user",
+@FeignClient(value="user", fallback = UserFallBack.class
         // 指定配置类
-        configuration = UserFacade.UserFeignConfig.class)
+//        ,configuration = UserFacade.UserFeignConfig.class 如果保留原有配置，Hystrix不会生效
+)
 public interface UserFacade {
 
     /**
@@ -113,6 +116,20 @@ public interface UserFacade {
         @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
         Logger.Level loggerLevel() {
             return Logger.Level.FULL;
+        }
+
+        /**
+         * 创建客户端构造器
+         * @return 客户端构造器
+         * @author 王兆祚
+         * @since 2023-05-17 21:16
+         */
+        // 注意名称需要保持一致
+        @Bean(name = "feignBuilder")
+        // 设置为"prototype"，代表只对当前客户端使用
+        @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+        public Feign.Builder clientBuilder() {
+            return Feign.builder();
         }
     }
 }
