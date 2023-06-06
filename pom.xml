@@ -22,6 +22,7 @@
         <module>product</module>
         <module>user</module>
         <module>common</module>
+        <module>zuul</module>
     </modules>
 
     <repositories>

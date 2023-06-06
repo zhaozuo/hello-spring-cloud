@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: zuul
+  profiles:
+    active: peer1
+
+# 向端口为5001和5002的Eureka服务治理中心注册
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:5001/eureka, http://localhost:5002/eureka
+
+# Zuul的配置
+zuul:
+  # 路由配置
+  routes:
+    # 用户微服务
+    user-service: # ⑧
+      # 请求拦截路径配置（使用ANT风格）
+      path: /u/**
+      # 通过一个URL配置
+      # url: http://localhost:6001/
+      # 通过服务名称配置
+      service-id: user
+    # 产品微服务配置
+    fund-service:
+      # 请求拦截路径配置（使用ANT风格）
+      path: /p/**
+      service-id: product
