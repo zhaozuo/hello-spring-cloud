@@ -30,6 +30,31 @@ eureka:
 
 # Zuul的配置
 zuul:
+  # 禁用过滤器ValidateCodeFilter ①
+  ValidateCodeFilter:
+    pre:
+      disable: true
+  ratelimit: # ②
+    # 使用Redis缓存对应的度量数据
+    repository: REDIS # ③
+    # 是否启用限速配置，默认为false，不启用
+    enabled: true # ④
+    # 默认全局配置
+    default-policy-list: # ⑤
+      # 时间戳内限制请求次数
+      - limit: 5
+        # 每次刷新间隔窗口请求时间限制（单位秒）
+        quota: 10
+        # 时间戳（单位秒）
+        refresh-interval: 10
+    policy-list: # 自定义配置 ⑥
+      user-service: # 对应zuul.routes.<key>配置项 ⑦
+        # 时间戳内限制请求次数
+        - limit: 3
+          # 每次刷新间隔窗口请求时间限制（单位秒）
+          quota: 3
+          # 时间窗口刷新间隔，单位秒
+          refresh-interval: 5
   # 路由配置
   routes:
     # 用户微服务
