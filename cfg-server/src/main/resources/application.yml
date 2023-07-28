@@ -1,0 +1,25 @@
+spring:
+  cloud:
+    config:
+      # Config服务端配置
+      server:
+        # 使用Git，将从Git仓库中读取配置文件
+        git:
+          # GitHub的URI，将从GitHub
+          uri: https://github.com/zhaozuo/learn-spring-cloud-config
+          # 如果你使用的是私有仓库，则需要填写用户密码
+          # GitHub用户名
+          # username: your-username
+          # GitHub密码
+          # password: your-password
+          # 默认的Git分支，默认值为“master”
+          default-label: master
+          # 查找路径，可以配置Git仓库的文件路径，
+          # 使用逗号分隔可配置多个路径
+          # search-paths: /config
+  application:
+    # 微服务名称
+    name: config-center
+## 配置端口
+server:
+  port: 4001

@@ -23,6 +23,8 @@
         <module>user</module>
         <module>common</module>
         <module>zuul</module>
+        <module>cfg-server</module>
+        <module>cfg-client</module>
     </modules>
 
     <repositories>
