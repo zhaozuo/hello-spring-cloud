@@ -41,29 +41,53 @@
 #    active: native
 
 #3.SVN方式
+#spring:
+#  cloud:
+#    config:
+#      # Config服务端配置
+#      server:
+#        # 使用SVN
+#        svn: # ①
+#          # SVN的URI连接
+#          uri: https://localhost:8443/svn/chapter10/
+#          # 默认分支，默认值为“trunk”
+#          # default-label: trunk
+#          # SVN用户名
+#          username: wzz
+#          # SVN密码
+#          password: a123456789
+#          # SVN服务器配置文件的路径（可以多个，用逗号分隔）
+#          searchPaths: /config-files
+#  application:
+#    # 微服务名称
+#    name: config-center
+#  profiles:
+#    # 注意，这个配置项一定要配置，否则Config服务端会默认使用Git
+#    active: subversion # ②
+
+# 4.数据库方式
 spring:
   cloud:
     config:
       # Config服务端配置
       server:
-        # 使用SVN
-        svn: # ①
-          # SVN的URI连接
-          uri: https://localhost:8443/svn/chapter10/
-          # 默认分支，默认值为“trunk”
-          # default-label: trunk
-          # SVN用户名
-          username: wzz
-          # SVN密码
-          password: a123456789
-          # SVN服务器配置文件的路径（可以多个，用逗号分隔）
-          searchPaths: /config-files
+        # 数据库方式
+        jdbc:
+          # 查询的SQL，需要记住的是客户端会给服务端传递三个参数，它们的顺序依次是：
+          # {spring.application.name}、{spring.profiles.active}
+          # 和{spring.cloud.config.label} 它们会依据顺序预编译到SQL中
+          sql: SELECT property_name, property_value from t_config where application_name =? and version=? and branch=? # ①
   application:
     # 微服务名称
     name: config-center
   profiles:
     # 注意，这个配置项一定要配置，否则Config服务端会默认使用Git
-    active: subversion # ②
+    active: jdbc # ②
+  datasource:
+    url: jdbc:mysql://localhost:3306/spring_cloud_chapter10?serverTimezone=GMT
+    username: root
+    password: 123456
+
 ## 配置端口
 server:
   port: 4001
